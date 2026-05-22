@@ -107,9 +107,8 @@ function displayHiveResult(hiveAnalysis, mainImage) {
         const img = document.createElement("img");
         img.src = mainImage;
         img.alt = "Image analysée";
-        img.style.width = "100%";
-        img.style.maxWidth = "260px";
-        img.style.height = "160px";
+        img.style.width = "180px";
+        img.style.height = "120px";
         img.style.objectFit = "cover";
         img.style.borderRadius = "8px";
         img.style.display = "block";

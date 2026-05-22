@@ -402,11 +402,6 @@ async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainIm
                 };
             }
         }
-        chrome.tabs.sendMessage(tabId, {
-            type: "tabSendArticleAndMetadata",
-            error: `Summary API Error: ${errorMessage}`
-        });
-
         return;
     }
 

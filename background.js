@@ -138,7 +138,7 @@ async function extractArticle(rawPageText) {
     const extractSystemPrompt = "You will be provided with a body of an article. Your task is to extract the full article content and return it as a plain string without any HTML tags or additional formatting. Do not alter the language; keep the content in its original language.";
     const extractUserPrompt = rawPageText;
 
-    const extractedArticleResponse = await fetch(OpenAI_APIurl, {
+    const extractedArticleResponse = await fetchWithTimeout(OpenAI_APIurl, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -159,11 +159,11 @@ async function extractArticle(rawPageText) {
                 }
             ]
         })
-    })
+    }, 15000)
 
     if (!extractedArticleResponse.ok) {
         try {
-            const errorDetails = await extractedMetadataResponse.json();
+            const errorDetails = await extractedArticleResponse.json();
             console.log(errorDetails);
             return `OPENAI API ERROR (EXTRACT ARTICLE CONTENT): ${extractedArticleResponse.status}  ${errorDetails.error.type} - ${errorDetails.error.code} : ${errorDetails.error.message}`;
         } catch (parseError) {
@@ -282,7 +282,7 @@ Return the results in the following JSON format, and only that:
     
     console.log("METADATA PROMPTS")
 
-    const extractedMetadataResponse = await fetch(OpenAI_APIurl, {
+    const extractedMetadataResponse = await fetchWithTimeout(OpenAI_APIurl, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -303,7 +303,7 @@ Return the results in the following JSON format, and only that:
                 }
             ]
         })
-    })
+    }, 15000)
 
     if (!extractedMetadataResponse.ok) {
         try {
@@ -322,6 +322,69 @@ Return the results in the following JSON format, and only that:
     return articleMetadata;
 }
 
+function createFallbackMetadata(errorMessage) {
+    return JSON.stringify({
+        analysisMetadata: [
+            {
+                category: "author",
+                value: "Not found",
+                explanation: `Analyse indisponible: ${errorMessage}`,
+                score: 50
+            },
+            {
+                category: "mediaReputation",
+                value: "Not found",
+                explanation: "L'analyse automatique de la reputation du media n'a pas pu etre effectuee.",
+                score: 50
+            },
+            {
+                category: "tone",
+                value: "Not found",
+                explanation: "Le ton de l'article n'a pas pu etre analyse automatiquement.",
+                score: 50
+            },
+            {
+                category: "quotationsQuality",
+                value: "Not found",
+                explanation: "La qualite des citations n'a pas pu etre analysee automatiquement.",
+                score: 50
+            },
+            {
+                category: "ambiguity",
+                value: "Not found",
+                explanation: "L'ambiguite du contenu n'a pas pu etre analysee automatiquement.",
+                score: 50
+            }
+        ],
+        indicationsMetadata: [
+            {
+                category: "articleSize",
+                value: "0"
+            },
+            {
+                category: "unexplainedTerms",
+                value: []
+            },
+            {
+                category: "politicalBias",
+                value: "Not found"
+            },
+            {
+                category: "sponsored",
+                value: false
+            },
+            {
+                category: "accessibility",
+                value: "Analyse indisponible"
+            },
+            {
+                category: "date",
+                value: new Date().toISOString()
+            }
+        ]
+    });
+}
+
 
 async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainImage) {
     //PROCESS ARTICLE
@@ -332,7 +395,17 @@ async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainIm
     //PROCESS METADATA
     console.log("BG EXTRACTING ARTICLE METADATA");
     sendNewMenuLoadingText(tabId, "Étude de l'article. . .")
-    const articleMetadata = await extractMetadata(webPageText);
+    let articleMetadata;
+    try {
+        articleMetadata = await withTimeout(
+            extractMetadata(webPageText),
+            10000,
+            "Analyse des metadonnees trop longue."
+        );
+    } catch (error) {
+        console.error("Metadata extraction error:", error);
+        articleMetadata = createFallbackMetadata(error.message);
+    }
 
     let hiveAnalysis = mainImage
         ? { error: "Analyse Hive desactivee temporairement pour eviter le blocage de l'affichage." }

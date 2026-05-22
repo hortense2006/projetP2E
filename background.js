@@ -362,6 +362,7 @@ Return the results in the following JSON format, and only that:
 
 
 async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainImage) {
+    let hiveAnalysis = null;
     //PROCESS ARTICLE
     console.log("BG EXTRACTING ARTICLE TEXT");
     sendNewMenuLoadingText(tabId, "Extraction de l'article. . .");
@@ -372,8 +373,6 @@ async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainIm
     sendNewMenuLoadingText(tabId, "Étude de l'article. . .")
     
     const articleMetadata = await extractMetadata(webPageText);
-
-    
 
     if ((articleText && articleText.startsWith("OPENAI API ERROR")) || (articleMetadata && articleMetadata.startsWith("OPENAI API ERROR"))) {
         let errorMessage = "";

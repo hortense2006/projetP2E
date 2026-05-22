@@ -390,21 +390,20 @@ async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainIm
         console.log(articleMetadata)
         console.log(errorMessage)
         let hiveAnalysis = null;
-
-        if (mainImage) {
-            try {
-                sendNewMenuLoadingText(tabId, "Analyse de l'image avec Hive. . .");
-                hiveAnalysis = await analyzeImageWithHive(mainImage);
-            } catch (error) {
-                console.error("Hive analysis error:", error);
-                hiveAnalysis = {
-                    error: error.message
-                };
-            }
-        }
         return;
     }
 
+    if (mainImage) {
+        try {
+            sendNewMenuLoadingText(tabId, "Analyse de l'image avec Hive. . .");
+            hiveAnalysis = await analyzeImageWithHive(mainImage);
+        } catch (error) {
+            console.error("Hive analysis error:", error);
+            hiveAnalysis = {
+                error: error.message
+            };
+        }
+    }
     chrome.tabs.sendMessage(tabId, {
         type: "tabSendArticleAndMetadata",
         articleText: articleText,

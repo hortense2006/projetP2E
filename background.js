@@ -183,6 +183,35 @@ async function extractArticle(rawPageText) {
 
     return articleText;
 }
+async function loadConfig() {
+    const response = await fetch(chrome.runtime.getURL("config.json"));
+    return await response.json();
+}
+async function analyzeImageWithHive(imageUrl) {
+    const config = await loadConfig();
+
+    const formData = new FormData();
+    formData.append("url", imageUrl);
+    formData.append("models", JSON.stringify(["ai_generated_media"]));
+    formData.append("user_id", "veritale_user");
+    formData.append("post_id", crypto.randomUUID());
+
+    const response = await fetch(config.HIVE_API_URL, {
+        method: "POST",
+        headers: {
+            "authorization": `token ${config.HIVE_API_KEY}`
+        },
+        body: formData
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(`Hive API error ${response.status}: ${JSON.stringify(data)}`);
+    }
+
+    return data;
+}
 
 async function extractMetadata(webPageText) {
     const OpenAI_APIurl = await getOpenAIApiUrl();
@@ -359,7 +388,19 @@ async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainIm
         console.log(articleText)
         console.log(articleMetadata)
         console.log(errorMessage)
+        let hiveAnalysis = null;
 
+        if (mainImage) {
+            try {
+                sendNewMenuLoadingText(tabId, "Analyse de l'image avec Hive. . .");
+                hiveAnalysis = await analyzeImageWithHive(mainImage);
+            } catch (error) {
+                console.error("Hive analysis error:", error);
+                hiveAnalysis = {
+                    error: error.message
+                };
+            }
+        }
         chrome.tabs.sendMessage(tabId, {
             type: "tabSendArticleAndMetadata",
             error: `Summary API Error: ${errorMessage}`
@@ -372,6 +413,8 @@ async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainIm
         type: "tabSendArticleAndMetadata",
         articleText: articleText,
         articleMetadata: articleMetadata,
+        hiveAnalysis : hiveAnalysis,
+        mainImage : mainImage
         
     });
 

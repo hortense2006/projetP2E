@@ -175,6 +175,8 @@ async function getArticleAndMetadataFromTab() {
                         articleText: message.articleText,
                         articleMetadata: JSON.parse(message.articleMetadata),
                         tabDomain: message.tabDomain,
+                        hiveAnalysis: message.hiveAnalysis,
+                        mainImage: message.mainImage,
                           
                       });
                       

@@ -9,28 +9,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             
             console.log("TAB EXTRACTING ARTICLE...");
             const targetElement = document.querySelector("article, main, article-main, texte-article");
-            /*
-            const imageElement =
-                document.querySelector("meta[property='og:image']") ||
-                document.querySelector("meta[name='twitter:image']") ||
-                document.querySelector("article img") ||
-                document.querySelector("main img") ||
-                document.querySelector(".post img, .entry-content img, .wp-post-image") ||
-                document.querySelector("img");
-
-            const rawMainImage =
-                imageElement?.content ||
-                imageElement?.currentSrc ||
-                imageElement?.src ||
-                imageElement?.dataset?.src ||
-                imageElement?.getAttribute("data-src") ||
-                imageElement?.getAttribute("srcset")?.split(" ")[0] ||
+            const mainImage =
+                document.querySelector("article img, main img, meta[property='og:image']")?.src ||
+                document.querySelector("meta[property='og:image']")?.content ||
                 null;
-            const mainImage = normalizeImageUrl(rawMainImage);
-
-            console.log("IMAGE ELEMENT:", imageElement);
-            console.log("MAIN IMAGE DETECTED:", mainImage);
-            */
 
             let rawPageText;
 
@@ -57,9 +39,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 type: "bgExtractArticleAndMetadataFromPage",
                 rawPageText: rawPageText,
                 webPageText: webPageText,
-                /*
                 mainImage: mainImage
-                */
             });
         } else if (message.type === "tabSendArticleAndMetadata") {
             console.log("TAB EXTRACTED ARTICLE!!!", message);
@@ -71,10 +51,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 type: "sendArticleAndMetadataToPopup",
                 articleText: message.articleText,
                 articleMetadata: message.articleMetadata,
-                /*
                 hiveAnalysis: message.hiveAnalysis,
                 mainImage: message.mainImage,
-                */
                 tabDomain: domain,
                 error: message.error || null
             });

@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 document.querySelector(".post img, .entry-content img, .wp-post-image") ||
                 document.querySelector("img");
 
-            const mainImage =
+            const rawMainImage =
                 imageElement?.content ||
                 imageElement?.currentSrc ||
                 imageElement?.src ||
@@ -25,6 +25,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 imageElement?.getAttribute("data-src") ||
                 imageElement?.getAttribute("srcset")?.split(" ")[0] ||
                 null;
+            const mainImage = normalizeImageUrl(rawMainImage);
 
             console.log("IMAGE ELEMENT:", imageElement);
             console.log("MAIN IMAGE DETECTED:", mainImage);
@@ -87,6 +88,19 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         }
 });
+
+function normalizeImageUrl(imageUrl) {
+    if (!imageUrl) {
+        return null;
+    }
+
+    try {
+        return new URL(imageUrl, window.location.href).href;
+    } catch (error) {
+        console.warn("Invalid image URL detected:", imageUrl, error);
+        return null;
+    }
+}
 
 
 //SUMMARY

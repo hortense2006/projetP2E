@@ -815,9 +815,48 @@ async function loadConfig() {
     const response = await fetch(chrome.runtime.getURL("config.json"));
     return await response.json();
 }
-console.log("IMAGE SENT TO HIVE:", mainImage);
+
+function assertHiveImageUrl(imageUrl) {
+    if (!imageUrl) {
+        throw new Error("Aucune image principale n'a ete detectee pour l'analyse Hive.");
+    }
+
+    let parsedUrl;
+    try {
+        parsedUrl = new URL(imageUrl);
+    } catch (error) {
+        throw new Error(`URL d'image invalide pour Hive: ${imageUrl}`);
+    }
+
+    if (!["http:", "https:"].includes(parsedUrl.protocol)) {
+        throw new Error(`Hive ne peut analyser qu'une URL publique HTTP/HTTPS, pas: ${parsedUrl.protocol}`);
+    }
+}
+
+async function readHiveResponse(response) {
+    const contentType = response.headers.get("content-type") || "";
+
+    if (contentType.includes("application/json")) {
+        return await response.json();
+    }
+
+    return {
+        message: await response.text()
+    };
+}
+
 async function analyzeImageWithHive(imageUrl) {
     const config = await loadConfig();
+
+    if (!config.HIVE_API_KEY) {
+        throw new Error("Cle API Hive manquante dans config.json");
+    }
+    if (!config.HIVE_API_URL) {
+        throw new Error("URL API Hive manquante dans config.json");
+    }
+
+    assertHiveImageUrl(imageUrl);
+    console.log("IMAGE SENT TO HIVE:", imageUrl);
 
     const formData = new FormData();
     formData.append("url", imageUrl);
@@ -828,12 +867,13 @@ async function analyzeImageWithHive(imageUrl) {
     const response = await fetch(config.HIVE_API_URL, {
         method: "POST",
         headers: {
-            "authorization": `token ${config.HIVE_API_KEY}`
+            "accept": "application/json",
+            "authorization": `Token ${config.HIVE_API_KEY}`
         },
         body: formData
     });
 
-    const data = await response.json();
+    const data = await readHiveResponse(response);
 
     if (!response.ok) {
         throw new Error(`Hive API error ${response.status}: ${JSON.stringify(data)}`);

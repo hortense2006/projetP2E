@@ -31,9 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   createUpdateMenuLoadingTextListener();
 
   hideMenu();
-  /*
-  try {
-  */
+  
   updateMenuLoadingText("Récupération de l'article et de ses métadonnées. . .");
   let { articleText, articleMetadata, tabDomain } = await getArticleAndMetadataFromTab();
   console.log(tabDomain, articleText, articleMetadata)
@@ -42,19 +40,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   const mediaRepBlacklist = await getMediaReputationBlacklistFromConfig();
   console.log(mediaRepBlacklist);
 
-  /*
-  if (articleMetadata.analysisMetadata && mediaRepBlacklist) {
-  */
+  
   if (articleMetadata.analysisMetadata) {
     if (mediaRepBlacklist.includes(tabDomain)) {
       let item = articleMetadata.analysisMetadata.find(entry => entry.category === "mediaReputation")
-      /*
-      if (item) {
-      */
+      
         item.score = Math.max(0, item.score - 50);
-      /*
-      }
-      */
+      
     }  
   }
 
@@ -64,9 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   showMenu();
   displayMetadataResults(articleMetadata, articleText);
-  /*
-  displayHiveResult(hiveAnalysis, mainImage);
-  */
+  
 
   //ONCLICK
   handleSummaryButton(articleText);
@@ -76,12 +66,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   displaySummaryOnPopup();
   displayFactCheckOnPopup();
 
-  /*
-  } catch (error) {
-    console.error("Erreur lors du chargement de l'article:", error);
-    updateMenuLoadingText(`Erreur : ${error.message || error}`);
-  }
-  */
+  
 
   //BOUTON FACT CHECK
 });
@@ -165,12 +150,7 @@ async function getMediaReputationBlacklistFromConfig() {
 
 async function getArticleAndMetadataFromTab() {
   return new Promise((resolve, reject) => {
-      /*
-      const timeoutId = setTimeout(() => {
-          chrome.runtime.onMessage.removeListener(handleResponse);
-          reject(new Error("Temps d'attente depasse pendant la recuperation de l'article."));
-      }, 30000);
-      */
+      
 
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
           if (tabs.length === 0) {
@@ -185,30 +165,19 @@ async function getArticleAndMetadataFromTab() {
           chrome.runtime.onMessage.addListener(function handleResponse(message) {
               if (message.type === "sendArticleAndMetadataToPopup") {
                   chrome.runtime.onMessage.removeListener(handleResponse); // Avoid duplicate listeners
-                  /*
-              clearTimeout(timeoutId);
-                  */
+                  
 
                   if (message.error) {
                       reject(message.error);
                   } else {
-                      /*
-                      try {
-                      */
+                      
                       resolve({
                         articleText: message.articleText,
                         articleMetadata: JSON.parse(message.articleMetadata),
                         tabDomain: message.tabDomain,
-                          /*
-                          hiveAnalysis : message.hiveAnalysis,
-                          mainImage : message.mainImage
-                          */
+                          
                       });
-                      /*
-                  } catch (error) {
-                      reject(new Error(`Reponse metadata invalide: ${error.message}`));
-                  }
-                      */
+                      
                   }
               }
           });
@@ -253,42 +222,7 @@ function getColorForTotalScore(totalScore) {
 
   return color;
 }
-/*
-function displayHiveResult(hiveAnalysis, mainImage) {
-    const indicationsDiv = document.getElementById("hive-analysis");
 
-    const itemDiv = document.createElement("div");
-    itemDiv.className = "metadata-item-indications";
-    itemDiv.style.backgroundColor = "#343232";
-
-    const title = document.createElement("p");
-    title.textContent = "Analyse image Hive";
-    itemDiv.appendChild(title);
-
-    if (mainImage) {
-        const img = document.createElement("img");
-        img.src = mainImage;
-        img.alt = "Image analysée";
-        img.style.maxWidth = "100%";
-        img.style.borderRadius = "8px";
-        itemDiv.appendChild(img);
-    }
-
-    const result = document.createElement("p");
-
-    if (!hiveAnalysis) {
-        result.textContent = "Aucune image principale détectée.";
-    } else if (hiveAnalysis.error) {
-        result.textContent = `Erreur Hive : ${hiveAnalysis.error}`;
-    } else {
-        result.textContent = "Résultat Hive reçu. Voir console pour détails.";
-        console.log("Hive analysis:", hiveAnalysis);
-    }
-
-    itemDiv.appendChild(result);
-    indicationsDiv.appendChild(itemDiv);
-}
-*/
 function displayMetadataResults(jsonData, article) {
   //DISPLAY ANALYSIS
   const metadataAnalysisDiv = document.getElementById("metadata-analysis");
@@ -682,8 +616,7 @@ function displayFactCheckOnPopup() {
 
           const totalNote = 
           ((entry.googleSearchResult && typeof entry.googleSearchResult.note === 'number') ? entry.googleSearchResult.note : 0) +
-          ((entry.GPTResearch && typeof entry.GPTResearch.note === 'number') ? entry.GPTResearch.note : 0); /* +
-          ((entry.googleFactCheck && typeof entry.googleFactCheck.note === 'number') ? entry.googleFactCheck.note : 0);  */  
+          ((entry.GPTResearch && typeof entry.GPTResearch.note === 'number') ? entry.GPTResearch.note : 0);   
           
           entryDivTitle.style.color = getColorForTotalNote(totalNote);
           
@@ -766,41 +699,7 @@ function displayFactCheckOnPopup() {
           } 
 
           
-          /* if (entry.googleFactCheck) {
-            const iconDiv = document.createElement("div");
-            iconDiv.className = "fact-check-list-element-subdiv-icon";
-            
-            const p = document.createElement("p");
-
-            if (entry.googleFactCheck.note) {
-              p.textContent = `${entry.googleFactCheck.note}/10`;
-              p.style.color = getColorForNote(entry.googleFactCheck.note);
-            } else {
-              p.textContent = `?`
-            }
-
-            const img = document.createElement("img");
-            img.src = "assets/google_fact_check_logo.png"; // Set the source of the image
-            img.alt = "Google Fact Check Icon"; // Set alternative text for accessibility
-            img.width = 24; // Set width (optional)
-            img.height = 24; // Set height (optional)
-
-            // Append the image to the div
-            iconDiv.appendChild(p);
-
-            if (entry.googleFactCheck.source && entry.googleFactCheck.source.length > 0) {
-              const a = document.createElement("a");
-              a.href = entry.googleFactCheck.source;
-              a.target = "_blank";
-
-              a.appendChild(img);
-              iconDiv.appendChild(a);
-            } else {
-              iconDiv.appendChild(img);
-            }
-
-            subEntryDiv.appendChild(iconDiv);
-          } */
+          
 
           entryDiv.appendChild(entryDivTitle);
           entryDiv.appendChild(subEntryDiv);

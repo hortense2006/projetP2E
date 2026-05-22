@@ -7,9 +7,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             message.rawPageText,
             message.webPageText,
             sender.tab.id
-            /*
-            message.mainImage
-            */
+            
         );
         return true; //async resp
     } else if (message.type === "bgSummarize") {
@@ -170,9 +168,7 @@ async function extractArticle(rawPageText) {
 
     if (!extractedArticleResponse.ok) {
         try {
-            /*
-            const errorDetails = await extractedArticleResponse.json();
-            */
+            
             const errorDetails = await extractedMetadataResponse.json();
             console.log(errorDetails);
             return `OPENAI API ERROR (EXTRACT ARTICLE CONTENT): ${extractedArticleResponse.status}  ${errorDetails.error.type} - ${errorDetails.error.code} : ${errorDetails.error.message}`;
@@ -332,70 +328,7 @@ Return the results in the following JSON format, and only that:
     return articleMetadata;
 }
 
-/*
-function createFallbackMetadata(errorMessage) {
-    return JSON.stringify({
-        analysisMetadata: [
-            {
-                category: "author",
-                value: "Not found",
-                explanation: `Analyse indisponible: ${errorMessage}`,
-                score: 50
-            },
-            {
-                category: "mediaReputation",
-                value: "Not found",
-                explanation: "L'analyse automatique de la reputation du media n'a pas pu etre effectuee.",
-                score: 50
-            },
-            {
-                category: "tone",
-                value: "Not found",
-                explanation: "Le ton de l'article n'a pas pu etre analyse automatiquement.",
-                score: 50
-            },
-            {
-                category: "quotationsQuality",
-                value: "Not found",
-                explanation: "La qualite des citations n'a pas pu etre analysee automatiquement.",
-                score: 50
-            },
-            {
-                category: "ambiguity",
-                value: "Not found",
-                explanation: "L'ambiguite du contenu n'a pas pu etre analysee automatiquement.",
-                score: 50
-            }
-        ],
-        indicationsMetadata: [
-            {
-                category: "articleSize",
-                value: "0"
-            },
-            {
-                category: "unexplainedTerms",
-                value: []
-            },
-            {
-                category: "politicalBias",
-                value: "Not found"
-            },
-            {
-                category: "sponsored",
-                value: false
-            },
-            {
-                category: "accessibility",
-                value: "Analyse indisponible"
-            },
-            {
-                category: "date",
-                value: new Date().toISOString()
-            }
-        ]
-    });
-}
-*/
+
 
 
 async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainImage) {
@@ -407,26 +340,10 @@ async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainIm
     //PROCESS METADATA
     console.log("BG EXTRACTING ARTICLE METADATA");
     sendNewMenuLoadingText(tabId, "Étude de l'article. . .")
-    /*
-    let articleMetadata;
-    try {
-        articleMetadata = await withTimeout(
-            extractMetadata(webPageText),
-            10000,
-            "Analyse des metadonnees trop longue."
-        );
-    } catch (error) {
-        console.error("Metadata extraction error:", error);
-        articleMetadata = createFallbackMetadata(error.message);
-    }
-    */
+    
     const articleMetadata = await extractMetadata(webPageText);
 
-    /*
-    let hiveAnalysis = mainImage
-        ? { error: "Analyse Hive desactivee temporairement pour eviter le blocage de l'affichage." }
-        : null;
-    */
+    
 
     if ((articleText && articleText.startsWith("OPENAI API ERROR")) || (articleMetadata && articleMetadata.startsWith("OPENAI API ERROR"))) {
         let errorMessage = "";
@@ -455,25 +372,13 @@ async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainIm
         type: "tabSendArticleAndMetadata",
         articleText: articleText,
         articleMetadata: articleMetadata,
-        /*
-        hiveAnalysis: hiveAnalysis,
-        mainImage: mainImage
-        */
+        
     });
 
     return true;
 }
 
-/*
-function withTimeout(promise, timeoutMs, timeoutMessage) {
-    let timeoutId;
-    const timeoutPromise = new Promise((resolve, reject) => {
-        timeoutId = setTimeout(() => reject(new Error(timeoutMessage)), timeoutMs);
-    });
 
-    return Promise.race([promise, timeoutPromise]).finally(() => clearTimeout(timeoutId));
-}
-*/
 
 async function sendNewMenuLoadingText(tabId, text) {
     chrome.tabs.sendMessage(tabId, {
@@ -909,95 +814,9 @@ async function loadConfig() {
     return await response.json();
 }
 
-/*
-function assertHiveImageUrl(imageUrl) {
-    if (!imageUrl) {
-        throw new Error("Aucune image principale n'a ete detectee pour l'analyse Hive.");
-    }
 
-    let parsedUrl;
-    try {
-        parsedUrl = new URL(imageUrl);
-    } catch (error) {
-        throw new Error(`URL d'image invalide pour Hive: ${imageUrl}`);
-    }
 
-    if (!["http:", "https:"].includes(parsedUrl.protocol)) {
-        throw new Error(`Hive ne peut analyser qu'une URL publique HTTP/HTTPS, pas: ${parsedUrl.protocol}`);
-    }
-}
 
-async function readHiveResponse(response) {
-    const contentType = response.headers.get("content-type") || "";
 
-    if (contentType.includes("application/json")) {
-        return await response.json();
-    }
 
-    return {
-        message: await response.text()
-    };
-}
-*/
-
-/*
-async function fetchWithTimeout(url, options, timeoutMs) {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
-    try {
-        return await fetch(url, {
-            ...options,
-            signal: controller.signal
-        });
-    } catch (error) {
-        if (error.name === "AbortError") {
-            throw new Error(`API timeout apres ${Math.round(timeoutMs / 1000)} secondes`);
-        }
-
-        throw error;
-    } finally {
-        clearTimeout(timeoutId);
-    }
-}
-*/
-
-/*
-async function analyzeImageWithHive(imageUrl) {
-    const config = await loadConfig();
-
-    if (!config.HIVE_API_KEY) {
-        throw new Error("Cle API Hive manquante dans config.json");
-    }
-    if (!config.HIVE_API_URL) {
-        throw new Error("URL API Hive manquante dans config.json");
-    }
-
-    assertHiveImageUrl(imageUrl);
-    console.log("IMAGE SENT TO HIVE:", imageUrl);
-
-    const formData = new FormData();
-    formData.append("url", imageUrl);
-    formData.append("models", JSON.stringify(["ai_generated_media"]));
-    formData.append("user_id", "veritale_user");
-    formData.append("post_id", crypto.randomUUID());
-
-    const response = await fetchWithTimeout(config.HIVE_API_URL, {
-        method: "POST",
-        headers: {
-            "accept": "application/json",
-            "authorization": `Token ${config.HIVE_API_KEY}`
-        },
-        body: formData
-    }, 10000);
-
-    const data = await readHiveResponse(response);
-
-    if (!response.ok) {
-        throw new Error(`Hive API error ${response.status}: ${JSON.stringify(data)}`);
-    }
-
-    return data;
-}
-*/
 

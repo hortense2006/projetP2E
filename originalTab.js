@@ -9,15 +9,24 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             
             console.log("TAB EXTRACTING ARTICLE...");
             const targetElement = document.querySelector("article, main, article-main, texte-article");
+            const imageElement =
+                document.querySelector("meta[property='og:image']") ||
+                document.querySelector("meta[name='twitter:image']") ||
+                document.querySelector("article img") ||
+                document.querySelector("main img") ||
+                document.querySelector(".post img, .entry-content img, .wp-post-image") ||
+                document.querySelector("img");
+
             const mainImage =
-                document.querySelector("meta[property='og:image']")?.content ||
-                document.querySelector("meta[name='twitter:image']")?.content ||
-                document.querySelector("article img")?.src ||
-                document.querySelector("main img")?.src ||
-                document.querySelector(".post img, .entry-content img, .wp-post-image")?.src ||
-                document.querySelector("img")?.src ||
+                imageElement?.content ||
+                imageElement?.currentSrc ||
+                imageElement?.src ||
+                imageElement?.dataset?.src ||
+                imageElement?.getAttribute("data-src") ||
+                imageElement?.getAttribute("srcset")?.split(" ")[0] ||
                 null;
 
+            console.log("IMAGE ELEMENT:", imageElement);
             console.log("MAIN IMAGE DETECTED:", mainImage);
 
             let rawPageText;

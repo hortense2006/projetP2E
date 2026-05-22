@@ -92,12 +92,17 @@ function displayHiveResult(hiveAnalysis, mainImage) {
     const itemDiv = document.createElement("div");
     itemDiv.className = "metadata-item-indications";
     itemDiv.style.backgroundColor = "#343232";
-    itemDiv.style.backgroundColor = "#343232";
     itemDiv.style.width = "300px";
+    itemDiv.style.height = "320px";
     itemDiv.style.margin = "0 auto";
     itemDiv.style.padding = "10px";
     itemDiv.style.boxSizing = "border-box";
     itemDiv.style.overflow = "hidden";
+
+    itemDiv.style.display = "flex";
+    itemDiv.style.flexDirection = "column";
+    itemDiv.style.justifyContent = "flex-start";
+    itemDiv.style.alignItems = "center";
 
     const title = document.createElement("p");
     title.textContent = "Analyse image Hive";
@@ -119,6 +124,8 @@ function displayHiveResult(hiveAnalysis, mainImage) {
     const result = document.createElement("p");
     result.style.fontSize = "12px";
     result.style.wordBreak = "break-word";
+    result.style.maxHeight = "60px";
+    result.style.overflowY = "auto";
     if(!mainImage){result.textContent = "Aucune image principale détectée.";}
     else if (!hiveAnalysis) {
         result.textContent = "Analyse Hive en cours...";

@@ -92,6 +92,12 @@ function displayHiveResult(hiveAnalysis, mainImage) {
     const itemDiv = document.createElement("div");
     itemDiv.className = "metadata-item-indications";
     itemDiv.style.backgroundColor = "#343232";
+    itemDiv.style.backgroundColor = "#343232";
+    itemDiv.style.width = "300px";
+    itemDiv.style.margin = "0 auto";
+    itemDiv.style.padding = "10px";
+    itemDiv.style.boxSizing = "border-box";
+    itemDiv.style.overflow = "hidden";
 
     const title = document.createElement("p");
     title.textContent = "Analyse image Hive";
@@ -101,8 +107,9 @@ function displayHiveResult(hiveAnalysis, mainImage) {
         const img = document.createElement("img");
         img.src = mainImage;
         img.alt = "Image analysée";
-        img.style.width = "220px";
-        img.style.height = "220px";
+        img.style.width = "100%";
+        img.style.maxWidth = "260px";
+        img.style.height = "160px";
         img.style.objectFit = "cover";
         img.style.borderRadius = "8px";
         img.style.display = "block";

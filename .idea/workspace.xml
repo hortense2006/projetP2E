@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79262930-601a-4c16-a272-1942737d5d16" name="Changes" comment="6ème commit">
-      <change beforePath="$USER_HOME$/Documents/ETUDES/2025-2026 ING2 ECE/PROJET 2EP/projetP2E/background.js" beforeDir="false" afterPath="$USER_HOME$/Documents/ETUDES/2025-2026 ING2 ECE/PROJET 2EP/projetP2E/background.js" afterDir="false" />
-      <change beforePath="$USER_HOME$/Documents/ETUDES/2025-2026 ING2 ECE/PROJET 2EP/projetP2E/originalTab.js" beforeDir="false" afterPath="$USER_HOME$/Documents/ETUDES/2025-2026 ING2 ECE/PROJET 2EP/projetP2E/originalTab.js" afterDir="false" />
-      <change beforePath="$USER_HOME$/Documents/ETUDES/2025-2026 ING2 ECE/PROJET 2EP/projetP2E/popup.js" beforeDir="false" afterPath="$USER_HOME$/Documents/ETUDES/2025-2026 ING2 ECE/PROJET 2EP/projetP2E/popup.js" afterDir="false" />
+    <list default="true" id="79262930-601a-4c16-a272-1942737d5d16" name="Changes" comment="7ème commit">
+      <change beforePath="$USER_HOME$/Documents/ETUDES/2025-2026 ING2 ECE/PROJET 2EP/projetP2E/.idea/workspace.xml" beforeDir="false" afterPath="$USER_HOME$/Documents/ETUDES/2025-2026 ING2 ECE/PROJET 2EP/projetP2E/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +78,7 @@
       <option name="presentableId" value="Default" />
       <updated>1779432153490</updated>
       <workItem from="1779432154862" duration="208000" />
-      <workItem from="1779432475967" duration="5247000" />
+      <workItem from="1779432475967" duration="6290000" />
     </task>
     <task id="LOCAL-00001" summary="2ème commit">
       <option name="closed" value="true" />
@@ -138,7 +136,23 @@
       <option name="project" value="LOCAL" />
       <updated>1779437559129</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="7ème commit">
+      <option name="closed" value="true" />
+      <created>1779438038087</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1779438038087</updated>
+    </task>
+    <task id="LOCAL-00009" summary="7ème commit">
+      <option name="closed" value="true" />
+      <created>1779438057108</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1779438057108</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -150,7 +164,8 @@
     <MESSAGE value="4ème commit" />
     <MESSAGE value="5ème commit" />
     <MESSAGE value="6ème commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="6ème commit" />
+    <MESSAGE value="7ème commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="7ème commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

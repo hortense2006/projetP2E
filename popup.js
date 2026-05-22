@@ -66,6 +66,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   //WHEN RESULT
   displaySummaryOnPopup();
   displayFactCheckOnPopup();
+    chrome.runtime.onMessage.addListener((message) => {
+        if (message.type === "displayHiveAnalysisInPopup") {
+            displayHiveResult(message.hiveAnalysis, message.mainImage);
+        }
+    });
 
   
 

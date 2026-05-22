@@ -417,6 +417,23 @@ async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainIm
         mainImage : mainImage
         
     });
+    if (mainImage) {
+        analyzeImageWithHive(mainImage)
+            .then((hiveAnalysis) => {
+                chrome.runtime.sendMessage({
+                    type: "displayHiveAnalysisInPopup",
+                    hiveAnalysis,
+                    mainImage
+                });
+            })
+            .catch((error) => {
+                chrome.runtime.sendMessage({
+                    type: "displayHiveAnalysisInPopup",
+                    hiveAnalysis: { error: error.message },
+                    mainImage
+                });
+            });
+    }
 
     return true;
 }

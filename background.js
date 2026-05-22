@@ -334,23 +334,9 @@ async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainIm
     sendNewMenuLoadingText(tabId, "Étude de l'article. . .")
     const articleMetadata = await extractMetadata(webPageText);
 
-    let hiveAnalysis = null;
-
-    if (mainImage) {
-        try {
-            sendNewMenuLoadingText(tabId, "Analyse de l'image avec Hive. . .");
-            hiveAnalysis = await withTimeout(
-                analyzeImageWithHive(mainImage),
-                5000,
-                "Analyse Hive trop longue, affichage des resultats sans attendre Hive."
-            );
-        } catch (error) {
-            console.error("Hive analysis error:", error);
-            hiveAnalysis = {
-                error: error.message
-            };
-        }
-    }
+    let hiveAnalysis = mainImage
+        ? { error: "Analyse Hive desactivee temporairement pour eviter le blocage de l'affichage." }
+        : null;
 
     if ((articleText && articleText.startsWith("OPENAI API ERROR")) || (articleMetadata && articleMetadata.startsWith("OPENAI API ERROR"))) {
         let errorMessage = "";

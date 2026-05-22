@@ -845,6 +845,26 @@ async function readHiveResponse(response) {
     };
 }
 
+async function fetchWithTimeout(url, options, timeoutMs) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+        return await fetch(url, {
+            ...options,
+            signal: controller.signal
+        });
+    } catch (error) {
+        if (error.name === "AbortError") {
+            throw new Error(`Hive API timeout apres ${Math.round(timeoutMs / 1000)} secondes`);
+        }
+
+        throw error;
+    } finally {
+        clearTimeout(timeoutId);
+    }
+}
+
 async function analyzeImageWithHive(imageUrl) {
     const config = await loadConfig();
 
@@ -864,14 +884,14 @@ async function analyzeImageWithHive(imageUrl) {
     formData.append("user_id", "veritale_user");
     formData.append("post_id", crypto.randomUUID());
 
-    const response = await fetch(config.HIVE_API_URL, {
+    const response = await fetchWithTimeout(config.HIVE_API_URL, {
         method: "POST",
         headers: {
             "accept": "application/json",
             "authorization": `Token ${config.HIVE_API_KEY}`
         },
         body: formData
-    });
+    }, 10000);
 
     const data = await readHiveResponse(response);
 

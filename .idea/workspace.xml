@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79262930-601a-4c16-a272-1942737d5d16" name="Changes" comment="3ème commit" />
+    <list default="true" id="79262930-601a-4c16-a272-1942737d5d16" name="Changes" comment="6ème commit">
+      <change beforePath="$USER_HOME$/Documents/ETUDES/2025-2026 ING2 ECE/PROJET 2EP/projetP2E/background.js" beforeDir="false" afterPath="$USER_HOME$/Documents/ETUDES/2025-2026 ING2 ECE/PROJET 2EP/projetP2E/background.js" afterDir="false" />
+      <change beforePath="$USER_HOME$/Documents/ETUDES/2025-2026 ING2 ECE/PROJET 2EP/projetP2E/originalTab.js" beforeDir="false" afterPath="$USER_HOME$/Documents/ETUDES/2025-2026 ING2 ECE/PROJET 2EP/projetP2E/originalTab.js" afterDir="false" />
+      <change beforePath="$USER_HOME$/Documents/ETUDES/2025-2026 ING2 ECE/PROJET 2EP/projetP2E/popup.js" beforeDir="false" afterPath="$USER_HOME$/Documents/ETUDES/2025-2026 ING2 ECE/PROJET 2EP/projetP2E/popup.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -76,7 +80,7 @@
       <option name="presentableId" value="Default" />
       <updated>1779432153490</updated>
       <workItem from="1779432154862" duration="208000" />
-      <workItem from="1779432475967" duration="2179000" />
+      <workItem from="1779432475967" duration="5247000" />
     </task>
     <task id="LOCAL-00001" summary="2ème commit">
       <option name="closed" value="true" />
@@ -94,7 +98,47 @@
       <option name="project" value="LOCAL" />
       <updated>1779434597399</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="4ème commit">
+      <option name="closed" value="true" />
+      <created>1779434693301</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1779434693301</updated>
+    </task>
+    <task id="LOCAL-00004" summary="5ème commit">
+      <option name="closed" value="true" />
+      <created>1779436904330</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1779436904330</updated>
+    </task>
+    <task id="LOCAL-00005" summary="5ème commit">
+      <option name="closed" value="true" />
+      <created>1779436924573</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1779436924573</updated>
+    </task>
+    <task id="LOCAL-00006" summary="5ème commit">
+      <option name="closed" value="true" />
+      <created>1779437549557</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1779437549557</updated>
+    </task>
+    <task id="LOCAL-00007" summary="6ème commit">
+      <option name="closed" value="true" />
+      <created>1779437559129</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1779437559129</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -103,7 +147,10 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="2ème commit" />
     <MESSAGE value="3ème commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="3ème commit" />
+    <MESSAGE value="4ème commit" />
+    <MESSAGE value="5ème commit" />
+    <MESSAGE value="6ème commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="6ème commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

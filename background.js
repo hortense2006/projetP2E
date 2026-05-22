@@ -3,7 +3,7 @@ console.log("background.js loaded !");
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "bgExtractArticleAndMetadataFromPage") {
         console.log("BACKGROUND EXTRACTING ARTICLE...");
-        extractArticleAndMetadata(message.rawPageText, message.webPageText, sender.tab.id);
+        extractArticleAndMetadata(message.rawPageText, message.webPageText, sender.tab.id,message.mainImage);
         return true; //async resp
     } else if (message.type === "bgSummarize") {
         backgroundSummarize(message.article, message.summaryLength, message.selectedTone, message.toneDescription, sendResponse);
@@ -323,7 +323,7 @@ Return the results in the following JSON format, and only that:
 }
 
 
-async function extractArticleAndMetadata(rawPageText, webPageText, tabId) {
+async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainImage) {
     //PROCESS ARTICLE
     console.log("BG EXTRACTING ARTICLE TEXT");
     sendNewMenuLoadingText(tabId, "Extraction de l'article. . .");
@@ -333,6 +333,20 @@ async function extractArticleAndMetadata(rawPageText, webPageText, tabId) {
     console.log("BG EXTRACTING ARTICLE METADATA");
     sendNewMenuLoadingText(tabId, "Étude de l'article. . .")
     const articleMetadata = await extractMetadata(webPageText);
+
+    let hiveAnalysis = null;
+
+    if (mainImage) {
+        try {
+            sendNewMenuLoadingText(tabId, "Analyse de l'image avec Hive. . .");
+            hiveAnalysis = await analyzeImageWithHive(mainImage);
+        } catch (error) {
+            console.error("Hive analysis error:", error);
+            hiveAnalysis = {
+                error: error.message
+            };
+        }
+    }
 
     if ((articleText && articleText.startsWith("OPENAI API ERROR")) || (articleMetadata && articleMetadata.startsWith("OPENAI API ERROR"))) {
         let errorMessage = "";
@@ -360,7 +374,9 @@ async function extractArticleAndMetadata(rawPageText, webPageText, tabId) {
     chrome.tabs.sendMessage(tabId, {
         type: "tabSendArticleAndMetadata",
         articleText: articleText,
-        articleMetadata: articleMetadata
+        articleMetadata: articleMetadata,
+        hiveAnalysis: hiveAnalysis,
+        mainImage: mainImage
     });
 
     return true;
@@ -794,5 +810,34 @@ Your task is to extract precise factual claims from the following article:
     }
 
     return factsJson;
+}
+async function loadConfig() {
+    const response = await fetch(chrome.runtime.getURL("config.json"));
+    return await response.json();
+}
+async function analyzeImageWithHive(imageUrl) {
+    const config = await loadConfig();
+
+    const formData = new FormData();
+    formData.append("url", imageUrl);
+    formData.append("models", JSON.stringify(["ai_generated_media"]));
+    formData.append("user_id", "veritale_user");
+    formData.append("post_id", crypto.randomUUID());
+
+    const response = await fetch(config.HIVE_API_URL, {
+        method: "POST",
+        headers: {
+            "authorization": `token ${config.HIVE_API_KEY}`
+        },
+        body: formData
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(`Hive API error ${response.status}: ${JSON.stringify(data)}`);
+    }
+
+    return data;
 }
 

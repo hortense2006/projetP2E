@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   hideMenu();
   updateMenuLoadingText("Récupération de l'article et de ses métadonnées. . .");
-  let { articleText, articleMetadata, tabDomain } = await getArticleAndMetadataFromTab();
+  let { articleText, articleMetadata, tabDomain, hiveAnalysis, mainImage } = await getArticleAndMetadataFromTab();
   console.log(tabDomain, articleText, articleMetadata)
 
   //APPLY BLACKLSIT OR WHITELIST
@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   showMenu();
   displayMetadataResults(articleMetadata, articleText);
+  displayHiveResult(hiveAnalysis, mainImage);
 
   //ONCLICK
   handleSummaryButton(articleText);
@@ -163,7 +164,9 @@ async function getArticleAndMetadataFromTab() {
                       resolve({
                         articleText: message.articleText,
                         articleMetadata: JSON.parse(message.articleMetadata),
-                        tabDomain: message.tabDomain
+                        tabDomain: message.tabDomain,
+                          hiveAnalysis : message.hiveAnalysis,
+                          mainImage : message.mainImage
                       });
                   }
               }
@@ -209,7 +212,40 @@ function getColorForTotalScore(totalScore) {
 
   return color;
 }
+function displayHiveResult(hiveAnalysis, mainImage) {
+    const indicationsDiv = document.getElementById("metadata-indications");
 
+    const itemDiv = document.createElement("div");
+    itemDiv.className = "metadata-item-indications";
+    itemDiv.style.backgroundColor = "#343232";
+
+    const title = document.createElement("p");
+    title.textContent = "Analyse image Hive";
+    itemDiv.appendChild(title);
+
+    if (mainImage) {
+        const img = document.createElement("img");
+        img.src = mainImage;
+        img.alt = "Image analysée";
+        img.style.maxWidth = "100%";
+        img.style.borderRadius = "8px";
+        itemDiv.appendChild(img);
+    }
+
+    const result = document.createElement("p");
+
+    if (!hiveAnalysis) {
+        result.textContent = "Aucune image principale détectée.";
+    } else if (hiveAnalysis.error) {
+        result.textContent = `Erreur Hive : ${hiveAnalysis.error}`;
+    } else {
+        result.textContent = "Résultat Hive reçu. Voir console pour détails.";
+        console.log("Hive analysis:", hiveAnalysis);
+    }
+
+    itemDiv.appendChild(result);
+    indicationsDiv.appendChild(itemDiv);
+}
 function displayMetadataResults(jsonData, article) {
   //DISPLAY ANALYSIS
   const metadataAnalysisDiv = document.getElementById("metadata-analysis");

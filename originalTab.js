@@ -9,6 +9,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             
             console.log("TAB EXTRACTING ARTICLE...");
             const targetElement = document.querySelector("article, main, article-main, texte-article");
+            const mainImage =
+                document.querySelector("article img, main img, meta[property='og:image']")?.src ||
+                document.querySelector("meta[property='og:image']")?.content ||
+                null;
 
             let rawPageText;
 
@@ -34,7 +38,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             chrome.runtime.sendMessage({
                 type: "bgExtractArticleAndMetadataFromPage",
                 rawPageText: rawPageText,
-                webPageText: webPageText
+                webPageText: webPageText,
+                mainImage: mainImage
             });
         } else if (message.type === "tabSendArticleAndMetadata") {
             console.log("TAB EXTRACTED ARTICLE!!!", message);
@@ -46,6 +51,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 type: "sendArticleAndMetadataToPopup",
                 articleText: message.articleText,
                 articleMetadata: message.articleMetadata,
+                hiveAnalysis: message.hiveAnalysis,
+                mainImage: message.mainImage,
                 tabDomain: domain,
                 error: message.error || null
             });

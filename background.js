@@ -191,7 +191,8 @@ async function loadConfig() {
 }
 async function analyzeImageWithHive(imageUrl) {
     const config = await loadConfig();
-
+    console.log("IMAGE URL SENT TO HIVE:", imageUrl);
+    console.log("HIVE RESPONSE:", data);
     const formData = new FormData();
     formData.append("url", imageUrl);
     formData.append("models", JSON.stringify(["ai_generated_media"]));

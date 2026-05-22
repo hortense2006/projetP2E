@@ -92,7 +92,7 @@ function displayHiveResult(hiveAnalysis, mainImage) {
     const itemDiv = document.createElement("div");
     itemDiv.className = "metadata-item-indications";
     itemDiv.style.backgroundColor = "#343232";
-    itemDiv.style.width = "300px";
+    itemDiv.style.width = "240px";
     itemDiv.style.height = "320px";
     itemDiv.style.margin = "0 auto";
     itemDiv.style.padding = "10px";

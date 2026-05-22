@@ -815,6 +815,7 @@ async function loadConfig() {
     const response = await fetch(chrome.runtime.getURL("config.json"));
     return await response.json();
 }
+console.log("IMAGE SENT TO HIVE:", mainImage);
 async function analyzeImageWithHive(imageUrl) {
     const config = await loadConfig();
 

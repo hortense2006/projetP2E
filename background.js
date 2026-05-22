@@ -169,7 +169,7 @@ async function extractArticle(rawPageText) {
     if (!extractedArticleResponse.ok) {
         try {
             
-            const errorDetails = await extractedMetadataResponse.json();
+            const errorDetails = await extractedArticleResponse.json();
             console.log(errorDetails);
             return `OPENAI API ERROR (EXTRACT ARTICLE CONTENT): ${extractedArticleResponse.status}  ${errorDetails.error.type} - ${errorDetails.error.code} : ${errorDetails.error.message}`;
         } catch (parseError) {

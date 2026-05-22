@@ -3,7 +3,14 @@ console.log("background.js loaded !");
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "bgExtractArticleAndMetadataFromPage") {
         console.log("BACKGROUND EXTRACTING ARTICLE...");
-        extractArticleAndMetadata(message.rawPageText, message.webPageText, sender.tab.id,message.mainImage);
+        extractArticleAndMetadata(
+            message.rawPageText,
+            message.webPageText,
+            sender.tab.id
+            /*
+            message.mainImage
+            */
+        );
         return true; //async resp
     } else if (message.type === "bgSummarize") {
         backgroundSummarize(message.article, message.summaryLength, message.selectedTone, message.toneDescription, sendResponse);
@@ -407,9 +414,11 @@ async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainIm
         articleMetadata = createFallbackMetadata(error.message);
     }
 
+    /*
     let hiveAnalysis = mainImage
         ? { error: "Analyse Hive desactivee temporairement pour eviter le blocage de l'affichage." }
         : null;
+    */
 
     if ((articleText && articleText.startsWith("OPENAI API ERROR")) || (articleMetadata && articleMetadata.startsWith("OPENAI API ERROR"))) {
         let errorMessage = "";
@@ -438,8 +447,10 @@ async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainIm
         type: "tabSendArticleAndMetadata",
         articleText: articleText,
         articleMetadata: articleMetadata,
+        /*
         hiveAnalysis: hiveAnalysis,
         mainImage: mainImage
+        */
     });
 
     return true;
@@ -888,6 +899,7 @@ async function loadConfig() {
     return await response.json();
 }
 
+/*
 function assertHiveImageUrl(imageUrl) {
     if (!imageUrl) {
         throw new Error("Aucune image principale n'a ete detectee pour l'analyse Hive.");
@@ -916,6 +928,7 @@ async function readHiveResponse(response) {
         message: await response.text()
     };
 }
+*/
 
 async function fetchWithTimeout(url, options, timeoutMs) {
     const controller = new AbortController();
@@ -928,7 +941,7 @@ async function fetchWithTimeout(url, options, timeoutMs) {
         });
     } catch (error) {
         if (error.name === "AbortError") {
-            throw new Error(`Hive API timeout apres ${Math.round(timeoutMs / 1000)} secondes`);
+            throw new Error(`API timeout apres ${Math.round(timeoutMs / 1000)} secondes`);
         }
 
         throw error;
@@ -937,6 +950,7 @@ async function fetchWithTimeout(url, options, timeoutMs) {
     }
 }
 
+/*
 async function analyzeImageWithHive(imageUrl) {
     const config = await loadConfig();
 
@@ -973,4 +987,5 @@ async function analyzeImageWithHive(imageUrl) {
 
     return data;
 }
+*/
 

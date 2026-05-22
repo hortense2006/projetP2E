@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   hideMenu();
   try {
   updateMenuLoadingText("Récupération de l'article et de ses métadonnées. . .");
-  let { articleText, articleMetadata, tabDomain, hiveAnalysis, mainImage } = await getArticleAndMetadataFromTab();
+  let { articleText, articleMetadata, tabDomain } = await getArticleAndMetadataFromTab();
   console.log(tabDomain, articleText, articleMetadata)
 
   //APPLY BLACKLSIT OR WHITELIST
@@ -55,7 +55,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   showMenu();
   displayMetadataResults(articleMetadata, articleText);
+  /*
   displayHiveResult(hiveAnalysis, mainImage);
+  */
 
   //ONCLICK
   handleSummaryButton(articleText);
@@ -170,8 +172,10 @@ async function getArticleAndMetadataFromTab() {
                         articleText: message.articleText,
                         articleMetadata: JSON.parse(message.articleMetadata),
                         tabDomain: message.tabDomain,
+                          /*
                           hiveAnalysis : message.hiveAnalysis,
                           mainImage : message.mainImage
+                          */
                       });
                   } catch (error) {
                       reject(new Error(`Reponse metadata invalide: ${error.message}`));
@@ -240,6 +244,7 @@ function getColorForTotalScore(totalScore) {
 
   return color;
 }
+/*
 function displayHiveResult(hiveAnalysis, mainImage) {
     const indicationsDiv = document.getElementById("hive-analysis");
 
@@ -274,6 +279,7 @@ function displayHiveResult(hiveAnalysis, mainImage) {
     itemDiv.appendChild(result);
     indicationsDiv.appendChild(itemDiv);
 }
+*/
 function displayMetadataResults(jsonData, article) {
   //DISPLAY ANALYSIS
   const metadataAnalysisDiv = document.getElementById("metadata-analysis");

@@ -9,6 +9,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             
             console.log("TAB EXTRACTING ARTICLE...");
             const targetElement = document.querySelector("article, main, article-main, texte-article");
+            /*
             const imageElement =
                 document.querySelector("meta[property='og:image']") ||
                 document.querySelector("meta[name='twitter:image']") ||
@@ -29,6 +30,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
             console.log("IMAGE ELEMENT:", imageElement);
             console.log("MAIN IMAGE DETECTED:", mainImage);
+            */
 
             let rawPageText;
 
@@ -55,7 +57,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 type: "bgExtractArticleAndMetadataFromPage",
                 rawPageText: rawPageText,
                 webPageText: webPageText,
+                /*
                 mainImage: mainImage
+                */
             });
         } else if (message.type === "tabSendArticleAndMetadata") {
             console.log("TAB EXTRACTED ARTICLE!!!", message);
@@ -67,8 +71,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 type: "sendArticleAndMetadataToPopup",
                 articleText: message.articleText,
                 articleMetadata: message.articleMetadata,
+                /*
                 hiveAnalysis: message.hiveAnalysis,
                 mainImage: message.mainImage,
+                */
                 tabDomain: domain,
                 error: message.error || null
             });
@@ -89,6 +95,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         }
 });
 
+/*
 function normalizeImageUrl(imageUrl) {
     if (!imageUrl) {
         return null;
@@ -101,6 +108,7 @@ function normalizeImageUrl(imageUrl) {
         return null;
     }
 }
+*/
 
 
 //SUMMARY

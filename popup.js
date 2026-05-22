@@ -199,10 +199,13 @@ async function getMediaReputationBlacklistFromConfig() {
 
 async function getArticleAndMetadataFromTab() {
   return new Promise((resolve, reject) => {
-      
+      const timeoutId = setTimeout(() => {
+          reject("Timeout : aucune réponse reçue depuis l'onglet ou le background.");
+      }, 30000);
 
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
           if (tabs.length === 0) {
+              clearTimeout(timeoutId);
               reject("No active tab found.");
               return;
           }
@@ -217,9 +220,10 @@ async function getArticleAndMetadataFromTab() {
                   
 
                   if (message.error) {
+                      clearTimeout(timeoutId);
                       reject(message.error);
                   } else {
-                      
+                      clearTimeout(timeoutId);
                       resolve({
                         articleText: message.articleText,
                         articleMetadata: JSON.parse(message.articleMetadata),

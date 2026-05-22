@@ -191,8 +191,6 @@ async function loadConfig() {
 }
 async function analyzeImageWithHive(imageUrl) {
     const config = await loadConfig();
-    console.log("IMAGE URL SENT TO HIVE:", imageUrl);
-    console.log("HIVE RESPONSE:", data);
     const formData = new FormData();
     formData.append("url", imageUrl);
     formData.append("models", JSON.stringify(["ai_generated_media"]));
@@ -208,7 +206,8 @@ async function analyzeImageWithHive(imageUrl) {
     });
 
     const data = await response.json();
-
+    console.log("IMAGE URL SENT TO HIVE:", imageUrl);
+    console.log("HIVE RESPONSE:", data);
     if (!response.ok) {
         throw new Error(`Hive API error ${response.status}: ${JSON.stringify(data)}`);
     }

@@ -339,7 +339,11 @@ async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainIm
     if (mainImage) {
         try {
             sendNewMenuLoadingText(tabId, "Analyse de l'image avec Hive. . .");
-            hiveAnalysis = await analyzeImageWithHive(mainImage);
+            hiveAnalysis = await withTimeout(
+                analyzeImageWithHive(mainImage),
+                5000,
+                "Analyse Hive trop longue, affichage des resultats sans attendre Hive."
+            );
         } catch (error) {
             console.error("Hive analysis error:", error);
             hiveAnalysis = {
@@ -380,6 +384,15 @@ async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainIm
     });
 
     return true;
+}
+
+function withTimeout(promise, timeoutMs, timeoutMessage) {
+    let timeoutId;
+    const timeoutPromise = new Promise((resolve, reject) => {
+        timeoutId = setTimeout(() => reject(new Error(timeoutMessage)), timeoutMs);
+    });
+
+    return Promise.race([promise, timeoutPromise]).finally(() => clearTimeout(timeoutId));
 }
 
 async function sendNewMenuLoadingText(tabId, text) {

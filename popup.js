@@ -118,7 +118,8 @@ function displayHiveResult(hiveAnalysis, mainImage) {
     }
 
     const result = document.createElement("p");
-
+    result.style.fontSize = "12px";
+    result.style.wordBreak = "break-word";
     if(!mainImage){result.textContent = "Aucune image principale détectée.";}
     else if (!hiveAnalysis) {
         result.textContent = "Analyse Hive en cours...";

@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 function displayHiveResult(hiveAnalysis, mainImage) {
     const indicationsDiv = document.getElementById("hive-analysis");
-
+    indicationsDiv.innerHTML ="";
     const itemDiv = document.createElement("div");
     itemDiv.className = "metadata-item-indications";
     itemDiv.style.backgroundColor = "#343232";
@@ -108,8 +108,9 @@ function displayHiveResult(hiveAnalysis, mainImage) {
 
     const result = document.createElement("p");
 
-    if (!hiveAnalysis) {
-        result.textContent = "Aucune image principale détectée.";
+    if(!mainImage){result.textContent = "Aucune image principale détectée.";}
+    else if (!hiveAnalysis) {
+        result.textContent = "Analyse Hive en cours...";
     } else if (hiveAnalysis.error) {
         result.textContent = `Erreur Hive : ${hiveAnalysis.error}`;
     } else {

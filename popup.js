@@ -213,7 +213,7 @@ function getColorForTotalScore(totalScore) {
   return color;
 }
 function displayHiveResult(hiveAnalysis, mainImage) {
-    const indicationsDiv = document.getElementById("metadata-indications");
+    const indicationsDiv = document.getElementById("hive-analysis");
 
     const itemDiv = document.createElement("div");
     itemDiv.className = "metadata-item-indications";

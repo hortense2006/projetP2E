@@ -33,7 +33,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   hideMenu();
   
   updateMenuLoadingText("Récupération de l'article et de ses métadonnées. . .");
-  let { articleText, articleMetadata, tabDomain, hiveAnalysis, mainImage } = await getArticleAndMetadataFromTab();
+    let articleText, articleMetadata, tabDomain, hiveAnalysis, mainImage;
+
+    try {
+        ({ articleText, articleMetadata, tabDomain, hiveAnalysis, mainImage } = await getArticleAndMetadataFromTab());
+    } catch (error) {
+        console.error("Erreur pendant la récupération :", error);
+        updateMenuLoadingText("Erreur pendant l'analyse. Regarde la console.");
+        return;
+    }
   console.log(tabDomain, articleText, articleMetadata)
 
   //APPLY BLACKLSIT OR WHITELIST

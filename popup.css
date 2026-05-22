@@ -149,7 +149,7 @@ header div {
 .features-wrapper {
   display: flex;
   transition: transform 0.5s ease-in-out;
-  width: calc(300px * 3);
+  width: calc(300px * 5);
   /* Total width for 3 items */
 }
 

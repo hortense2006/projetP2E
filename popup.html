@@ -1,0 +1,92 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="popup.js"></script>
+  <link rel="stylesheet" type="text/css" href="popup.css">
+</head>
+
+<body>
+  <header>
+    <div>
+      <img src="/assets/icons/veritale-icon-48.png" alt="VeriTale icon" />
+      <h1>VeriTale</h1>
+    </div>
+  </header>
+
+  <div id="menu-loading-spinner" class="spinner" style="display: none;">
+    <img src="assets/bouncing-circles.svg" alt="Chargement menu" width="250" height="250">
+    <h1 id="menu-loading-text">Chargement en cours. . .</h1>
+  </div>
+
+  <div id="menu" style="display: none;" class="features-container">
+    <div class="features-wrapper">
+      <!--ANALYSE AUTO-->
+      <div class="features-item" id="auto-analysis-section">
+        <h2>Analyse du média et du contenu</h2>
+        <div id="metadata-analysis">
+        </div>
+      </div>
+
+      <!--INDICATIONS AUTO-->
+      <div class="features-item" id="auto-indications-section">
+        <h2>Indications</h2>
+        <div id="metadata-indications">
+        </div>
+      </div>
+      <!--SUMMARY-->
+      <div class="features-item" id="summary-section">
+        <h2>Résumé de l'article
+        <img id="summary-close-btn" style="display: none; margin-left: 50px;" src="/assets/icons/close.png"
+          alt="Cross to close the summary" />
+        </h2>
+
+        <div class="summary-user-input">
+          <label for="summary-user-length">Longueur</label>
+          <input type="range" id="summary-user-length" name="summary-user-length" min="1" max="6" value="3">
+          <label for="summary-user-tone">Ton</label>
+          <select id="summary-user-tone" name="summary-user-tone">
+            <option value="informative" data-description="provides clear and factual information without personal opinions.">Informatif</option>
+            <option value="descriptive" data-description="offers detailed descriptions to create a vivid picture of the subject.">Descriptif</option>
+            <option value="analytic" data-description="examines elements in depth, providing detailed analysis and evaluation.">Analytique</option>
+            <option value="neutral" data-description="presents information impartially, without bias or judgment.">Neutre</option>
+          </select>
+        </div>
+        <button class="features-btn" id="summary-btn">Génerer</button>
+
+        <div id="summary-loading-spinner" style="display: none;">
+          <img src="assets/bouncing-circles.svg" alt="Chargement résumé" width="50" height="50">
+        </div>
+
+        <div class="summary-content-container" id="summary-scrollbar" style="display: none;">
+          <p class="summary-content" id="summary-content"></p>
+        </div>
+
+      </div>
+      <!--FACT CHECK-->
+      <div class="features-item" id="factcheck-section">
+
+        <h2>Fact Check</h2>
+        <img id="fact-check-close-btn" style="display: none; margin-left: 50px;" src="/assets/icons/close.png"
+          alt="Cross to close the summary" />
+        <button class="features-btn" id="factcheck-btn">Analyser</button>
+
+        <div id="fact-check-list">
+        </div>
+
+        <div id="fact-check-loading-spinner" style="display: none;">
+          <img src="assets/bouncing-circles.svg" alt="Chargement résumé" width="50" height="50">
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <button class="features-nav left" id="left-arrow">&#11164;</button>
+  <button class="features-nav right" id="right-arrow">&#11166;</button>
+
+  <div id="sticky-disclaimer-footer">
+    <p>Certaines de nos méthodes utilisent l'Intelligence Artificielle, prenez soin de toujours vérifier les informations à votre disposition.</p>
+  </div>
+</body>
+
+</html>

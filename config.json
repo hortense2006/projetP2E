@@ -1,0 +1,16 @@
+{
+  "OPENAI_API_KEY": "API_KEY",
+  "OPENAI_API_URL": "https://api.openai.com/v1/chat/completions",
+  "OPENAI_API_MODEL": "gpt-4o-mini",
+  "OPENAI_API_MAX_TOKENS": 3000,
+  "GOOGLE_CUSTOM_SEARCH_API_KEY": "API_KEY",
+  "GOOGLE_CUSTOM_SEARCH_API_URL": "https://www.googleapis.com/customsearch/v1",
+  "GOOGLE_CUSTOM_SEARCH_ENGINE_ID": "22d75b670cc7c4c8d",
+  "GOOGLE_CUSTOM_SEARCH_API_RESULTSNB": 30,
+  "GOOGLE_CUSTOM_SEARCH_API_RESULTSPERBATCHNB": 10,
+  "ENV": "DEV",
+  "MEDIA_REPUTATION": {
+    "WHITELIST": ["www.20minutes.fr"],
+    "BLACKLIST": ["www.legorafi.fr", "theonion.com", "www.breitbart.com"]
+  }
+}

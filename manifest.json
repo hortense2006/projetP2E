@@ -1,0 +1,83 @@
+{
+  "name": "Veritale Extension",
+  "description": "Article summary using AI, with fact checking features",
+  "version": "0.8.3",
+  "manifest_version": 3,
+  "icons": {
+    "16": "assets/icons/veritale-icon-16.png",
+    "48": "assets/icons/veritale-icon-48.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "assets/icons/veritale-icon-48.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "activeTab",
+    "tabs"
+  ],
+"content_scripts": [
+    {
+      "matches": [
+        "https://theonion.com/*",
+        "https://*.breitbart.com/*",
+        "https://*.legorafi.fr/*",
+        "https://*.20minutes.fr/*",
+        "https://*.lefigaro.fr/*",
+        "https://*.brut.media/*",
+        "https://*.konbini.com/*",
+        "https://*.cnn.com/*",
+        "https://*.bbc.com/*",
+        "https://*.nytimes.com/*",
+        "https://*.theguardian.com/*",
+        "https://*.aljazeera.com/*",
+        "https://*.timesofindia.indiatimes.com/*",
+        "https://*.japantimes.co.jp/*",
+        "https://*.smh.com.au/*",
+        "https://*.cbc.ca/*",
+        "https://*.elpais.com/*",
+        "https://*.corriere.it/*",
+        "https://*.spiegel.de/*",
+        "https://*.africa-newsroom.com/*",
+        "https://*.reuters.com/*",
+        "https://*.forbes.com/*",
+        "https://*.bloomberg.com/*",
+        "https://*.scmp.com/*",
+        "https://*.thehindu.com/*",
+        "https://*.lemonde.fr/*",
+        "https://*.news24.com/*",
+        "https://*.globaltimes.cn/*",
+        "https://*.stratfor.com/*",
+        "https://*.rt.com/*",
+        "https://*.france24.com/*",
+        "https://*.latimes.com/*",
+        "https://*.washingtonpost.com/*",
+        "https://*.aljazeera.net/*",
+        "https://*.ina.fr/*",
+        "https://*.legorafi.fr/*",
+        "file:///*"
+      ],
+      "js": [
+        "originalTab.js"
+      ]
+    }
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "features/**/*.js"
+      ],
+      "matches": [
+        "<all_urls>",
+        "file:///*"
+      ]
+    }
+  ],
+  "host_permissions": [
+    "<all_urls>",
+    "file:///*"
+  ]
+}

@@ -31,7 +31,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   createUpdateMenuLoadingTextListener();
 
   hideMenu();
+  /*
   try {
+  */
   updateMenuLoadingText("Récupération de l'article et de ses métadonnées. . .");
   let { articleText, articleMetadata, tabDomain } = await getArticleAndMetadataFromTab();
   console.log(tabDomain, articleText, articleMetadata)
@@ -40,12 +42,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   const mediaRepBlacklist = await getMediaReputationBlacklistFromConfig();
   console.log(mediaRepBlacklist);
 
+  /*
   if (articleMetadata.analysisMetadata && mediaRepBlacklist) {
+  */
+  if (articleMetadata.analysisMetadata) {
     if (mediaRepBlacklist.includes(tabDomain)) {
       let item = articleMetadata.analysisMetadata.find(entry => entry.category === "mediaReputation")
+      /*
       if (item) {
+      */
         item.score = Math.max(0, item.score - 50);
+      /*
       }
+      */
     }  
   }
 
@@ -67,10 +76,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   displaySummaryOnPopup();
   displayFactCheckOnPopup();
 
+  /*
   } catch (error) {
     console.error("Erreur lors du chargement de l'article:", error);
     updateMenuLoadingText(`Erreur : ${error.message || error}`);
   }
+  */
 
   //BOUTON FACT CHECK
 });
@@ -154,20 +165,36 @@ async function getMediaReputationBlacklistFromConfig() {
 
 async function getArticleAndMetadataFromTab() {
   return new Promise((resolve, reject) => {
+      /*
       const timeoutId = setTimeout(() => {
           chrome.runtime.onMessage.removeListener(handleResponse);
           reject(new Error("Temps d'attente depasse pendant la recuperation de l'article."));
       }, 30000);
+      */
 
-      function handleResponse(message) {
-          if (message.type === "sendArticleAndMetadataToPopup") {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          if (tabs.length === 0) {
+              reject("No active tab found.");
+              return;
+          }
+
+          console.log("ARTICLE TAB ID IS ", tabs[0].id)
+          chrome.tabs.sendMessage(tabs[0].id, { type: "tabExtractArticleAndMetadata",     tabUrl: tabs[0].url
+          }, );
+
+          chrome.runtime.onMessage.addListener(function handleResponse(message) {
+              if (message.type === "sendArticleAndMetadataToPopup") {
+                  chrome.runtime.onMessage.removeListener(handleResponse); // Avoid duplicate listeners
+                  /*
               clearTimeout(timeoutId);
-              chrome.runtime.onMessage.removeListener(handleResponse); // Avoid duplicate listeners
+                  */
 
-              if (message.error) {
-                  reject(new Error(message.error));
-              } else {
-                  try {
+                  if (message.error) {
+                      reject(message.error);
+                  } else {
+                      /*
+                      try {
+                      */
                       resolve({
                         articleText: message.articleText,
                         articleMetadata: JSON.parse(message.articleMetadata),
@@ -177,30 +204,12 @@ async function getArticleAndMetadataFromTab() {
                           mainImage : message.mainImage
                           */
                       });
+                      /*
                   } catch (error) {
                       reject(new Error(`Reponse metadata invalide: ${error.message}`));
                   }
-              }
-          }
-      }
-
-      chrome.runtime.onMessage.addListener(handleResponse);
-
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-          if (tabs.length === 0) {
-              clearTimeout(timeoutId);
-              chrome.runtime.onMessage.removeListener(handleResponse);
-              reject(new Error("Aucun onglet actif trouve."));
-              return;
-          }
-
-          console.log("ARTICLE TAB ID IS ", tabs[0].id)
-          chrome.tabs.sendMessage(tabs[0].id, { type: "tabExtractArticleAndMetadata",     tabUrl: tabs[0].url
-          }, () => {
-              if (chrome.runtime.lastError) {
-                  clearTimeout(timeoutId);
-                  chrome.runtime.onMessage.removeListener(handleResponse);
-                  reject(new Error(`Impossible de contacter la page active: ${chrome.runtime.lastError.message}`));
+                      */
+                  }
               }
           });
       });

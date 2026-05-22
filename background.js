@@ -6,7 +6,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         extractArticleAndMetadata(
             message.rawPageText,
             message.webPageText,
-            sender.tab.id
+            sender.tab.id,
+            message.mainImage
             
         );
         return true; //async resp

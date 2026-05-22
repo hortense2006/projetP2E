@@ -31,6 +31,7 @@ async function getOpenAIApiKey() {
     try {
       const response = await fetch(chrome.runtime.getURL('config.json'));
       const config = await response.json();
+        console.log(config);
       if (!config.OPENAI_API_KEY) throw new Error("API key missing in config.json");
       return config.OPENAI_API_KEY;
     } catch (err) {
@@ -417,23 +418,7 @@ async function extractArticleAndMetadata(rawPageText, webPageText, tabId, mainIm
         mainImage : mainImage
         
     });
-    if (mainImage) {
-        analyzeImageWithHive(mainImage)
-            .then((hiveAnalysis) => {
-                chrome.runtime.sendMessage({
-                    type: "displayHiveAnalysisInPopup",
-                    hiveAnalysis,
-                    mainImage
-                });
-            })
-            .catch((error) => {
-                chrome.runtime.sendMessage({
-                    type: "displayHiveAnalysisInPopup",
-                    hiveAnalysis: { error: error.message },
-                    mainImage
-                });
-            });
-    }
+
 
     return true;
 }

@@ -193,7 +193,7 @@ async function analyzeImageWithHive(imageUrl) {
     const config = await loadConfig();
     const formData = new FormData();
     formData.append("url", imageUrl);
-    formData.append("models", JSON.stringify(["\"hive/ai-generated-and-deepfake-content-detection\""]));
+    formData.append("models", JSON.stringify(["hive/ai-generated-and-deepfake-content-detection"]));
     formData.append("user_id", "veritale_user");
     formData.append("post_id", crypto.randomUUID());
 

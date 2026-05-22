@@ -78,23 +78,7 @@
       <option name="presentableId" value="Default" />
       <updated>1779432153490</updated>
       <workItem from="1779432154862" duration="208000" />
-      <workItem from="1779432475967" duration="22140000" />
-    </task>
-    <task id="LOCAL-00002" summary="3ème commit">
-      <option name="closed" value="true" />
-      <created>1779434597399</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1779434597399</updated>
-    </task>
-    <task id="LOCAL-00003" summary="4ème commit">
-      <option name="closed" value="true" />
-      <created>1779434693301</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1779434693301</updated>
+      <workItem from="1779432475967" duration="22596000" />
     </task>
     <task id="LOCAL-00004" summary="5ème commit">
       <option name="closed" value="true" />
@@ -472,7 +456,23 @@
       <option name="project" value="LOCAL" />
       <updated>1779471512150</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="8ème commit + final push">
+      <option name="closed" value="true" />
+      <created>1779471979271</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1779471979271</updated>
+    </task>
+    <task id="LOCAL-00052" summary="8ème commit + final push">
+      <option name="closed" value="true" />
+      <created>1779472274149</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1779472274151</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

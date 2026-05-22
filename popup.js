@@ -44,8 +44,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (articleMetadata.analysisMetadata) {
     if (mediaRepBlacklist.includes(tabDomain)) {
       let item = articleMetadata.analysisMetadata.find(entry => entry.category === "mediaReputation")
-      
-        item.score = Math.max(0, item.score - 50);
+        if(item)
+        {
+            item.score = Math.max(0, item.score - 50);
+        }
       
     }  
   }

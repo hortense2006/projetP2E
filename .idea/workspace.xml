@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="79262930-601a-4c16-a272-1942737d5d16" name="Changes" comment="" />
+    <list default="true" id="79262930-601a-4c16-a272-1942737d5d16" name="Changes" comment="3ème commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,9 +17,24 @@
       </list>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$USER_HOME$/Documents/ETUDES/2025-2026 ING2 ECE/PROJET 2EP/projetP2E" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "hortense2006"
+  }
 }]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/hortense2006/projetP2E",
+    "accountId": "ead8e739-57eb-46ba-a5c3-3da8a9fae418"
+  }
+}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="3E4JwnuiuhfpAguVAafn5BsdtI8" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -27,9 +45,17 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "onboarding.tips.debug.path": "C:/Users/galti/Documents/ETUDES/2025-2026 ING2 ECE/PROJET 2EP/projetP2E/src/Main.java",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
     "show.migrate.to.gradle.popup": "false",
     "vue.rearranger.settings.migration": "true"
   }
@@ -50,11 +76,34 @@
       <option name="presentableId" value="Default" />
       <updated>1779432153490</updated>
       <workItem from="1779432154862" duration="208000" />
+      <workItem from="1779432475967" duration="2179000" />
     </task>
+    <task id="LOCAL-00001" summary="2ème commit">
+      <option name="closed" value="true" />
+      <created>1779433819702</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1779433819702</updated>
+    </task>
+    <task id="LOCAL-00002" summary="3ème commit">
+      <option name="closed" value="true" />
+      <created>1779434597399</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1779434597399</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="2ème commit" />
+    <MESSAGE value="3ème commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="3ème commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

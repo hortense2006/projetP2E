@@ -132,8 +132,23 @@ function displayHiveResult(hiveAnalysis, mainImage) {
     } else if (hiveAnalysis.error) {
         result.textContent = `Erreur Hive : ${hiveAnalysis.error}`;
     } else {
-        result.textContent = "Résultat Hive reçu. Voir console pour détails.";
         console.log("Hive analysis:", hiveAnalysis);
+
+        const output = hiveAnalysis.output?.[0];
+        const classes = output?.classes || [];
+
+        const aiGenerated = classes.find(c => c.class === "ai_generated");
+        const notAiGenerated = classes.find(c => c.class === "not_ai_generated");
+
+        if (aiGenerated) {
+            const score = Math.round(aiGenerated.score * 100);
+            result.textContent = `Image probablement générée par IA : ${score}%`;
+        } else if (notAiGenerated) {
+            const score = Math.round(notAiGenerated.score * 100);
+            result.textContent = `Image probablement réelle : ${score}%`;
+        } else {
+            result.textContent = "Résultat Hive reçu, mais format inattendu.";
+        }
     }
 
     itemDiv.appendChild(result);

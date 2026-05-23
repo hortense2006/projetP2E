@@ -191,17 +191,28 @@ async function loadConfig() {
 }
 async function analyzeImageWithHive(imageUrl) {
     const config = await loadConfig();
+
     const response = await fetch(config.HIVE_API_URL, {
         method: "POST",
         headers: {
-            "authorization": `token ${config.HIVE_API_KEY}`
+            "authorization": `Bearer ${config.HIVE_API_KEY}`,
+            "Content-Type": "application/json"
         },
-        body: formData
+        body: JSON.stringify({
+            media_metadata: true,
+            input: [
+                {
+                    media_url: imageUrl
+                }
+            ]
+        })
     });
 
     const data = await response.json();
+
     console.log("IMAGE URL SENT TO HIVE:", imageUrl);
     console.log("HIVE RESPONSE:", data);
+
     if (!response.ok) {
         throw new Error(`Hive API error ${response.status}: ${JSON.stringify(data)}`);
     }

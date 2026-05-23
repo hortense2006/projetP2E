@@ -141,10 +141,12 @@ function displayHiveResult(hiveAnalysis, mainImage) {
         const notAiGenerated = classes.find(c => c.class === "not_ai_generated");
 
         if (aiGenerated) {
-            const score = Math.round(aiGenerated.score * 100);
+            const rawScore = aiGenerated.score ?? aiGenerated.value ?? aiGenerated.confidence;
+            const score = Math.round(rawScore * 100);
             result.textContent = `Image probablement générée par IA : ${score}%`;
         } else if (notAiGenerated) {
-            const score = Math.round(notAiGenerated.score * 100);
+            const rawScore = notAiGenerated.score ?? notAiGenerated.value ?? notAiGenerated.confidence;
+            const score = Math.round(rawScore * 100);
             result.textContent = `Image probablement réelle : ${score}%`;
         } else {
             result.textContent = "Résultat Hive reçu, mais format inattendu.";
